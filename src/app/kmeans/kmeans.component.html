@@ -1,0 +1,100 @@
+<div class="container m-5">
+    <h3>Algoritmo KMEANS</h3>
+    <hr>
+    <form>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Query</span>
+            <textarea class="form-control" placeholder="Ej: SELECT * FROM ..."></textarea>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Nombre de columnas</span>
+            <input type="text" class="form-control" placeholder="Ej: h_título">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Número de Clusters</span>
+            <input type="number" class="form-control" placeholder="Ej: 4">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Init</span>
+            <input type="text" class="form-control" placeholder="Ej: Kmeans++">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Máx. Iteraciones</span>
+            <input type="number" class="form-control" placeholder="Ej: 1">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Envíar</button>
+    </form>
+    <hr>
+    <!-- TAB NAV -->
+    <div class="container my-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="true">Instancias</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Gráfico</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="false">Datos extra</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active p-5" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">H_TITULO</th>
+                            <th scope="col">H_DESCRIPTION</th>
+                            <th scope="col">CLUSTER</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>ANALISTA</td>
+                            <td>ANALISTA DE SISTEMAS</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>ANALISTA</td>
+                            <td>DESARROLLADOR WEB</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>ANALISTA</td>
+                            <td>DESARROLLADOR WEB</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade p-5" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/KMeans-Gaussian-data.svg/952px-KMeans-Gaussian-data.svg.png"
+                    alt="" height="600px" width="600px">
+            </div>
+            <div class="tab-pane fade p-5" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            Centroides
+                        </div>
+                        <div class="col-6">
+                            <ul>
+                                <li>Cluster 0: [10, 119]</li>
+                                <li>Cluster 1: [13, 219]</li>
+                                <li>Cluster 2: [80, 619]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
