@@ -7,21 +7,21 @@
             <textarea class="form-control" placeholder="Ej: SELECT * FROM ..." formControlName="query"></textarea>
         </div>
         <div class="input-group mb-3">
-          <span class="input-group-text">Nombre de columnas</span>
-          <input type="text" aria-label="First name" class="form-control" formControlName="column_1">
-          <input type="text" aria-label="Last name" class="form-control" formControlName="column_2">
+            <span class="input-group-text">Nombre de columnas</span>
+            <input type="text" aria-label="First name" class="form-control" formControlName="column_1">
+            <input type="text" aria-label="Last name" class="form-control" formControlName="column_2">
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text">Número de Clusters</span>
             <input type="number" class="form-control" placeholder="Ej: 4" formControlName="n_clusters">
         </div>
         <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01">Init</label>
-          <select class="form-select" id="inputGroupSelect01" formControlName="init">
-            <option disabled selected>Selecciona una opción</option>
-            <option value="kmeans++">kmeans++</option>
-            <option value="random">Random</option>
-          </select>
+            <label class="input-group-text" for="inputGroupSelect01">Init</label>
+            <select class="form-select" id="inputGroupSelect01" formControlName="init">
+                <option disabled selected>Selecciona una opción</option>
+                <option value="kmeans++">kmeans++</option>
+                <option value="random">Random</option>
+            </select>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text">Máx. Iteraciones</span>
@@ -57,7 +57,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let element of data?.data.data; let i=index">
+                        <!-- | paginate:{itemPerPage:4, currentPage: page}; -->
+                        <tr *ngFor="let element of data?.data.data  let i=index">
                             <th scope="row">{{ i+1 }}</th>
                             <td>{{ element[data?.columns[0]] }}</td>
                             <td>{{ element[data?.columns[1]] }}</td>
@@ -65,10 +66,12 @@
                         </tr>
                     </tbody>
                 </table>
+                <pagination-controls (pageChange)="page=$event" previousLabel="Anterior" nextLabel="Siguiente">
+                </pagination-controls>
             </div>
+
             <div class="tab-pane fade p-5" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <img [src]=" img "
-                    alt="" height="600px" width="600px">
+                <img [src]=" img " alt="" height="600px" width="600px">
             </div>
             <div class="tab-pane fade p-5" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <div class="container">
@@ -78,7 +81,8 @@
                         </div>
                         <div class="col-6">
                             <ul>
-                                <li *ngFor="let centroid of data?.centroids; let i=index"><b>{{ i+1 }}</b> Cluster {{ i }} : {{ centroid }}</li>
+                                <li *ngFor="let centroid of data?.centroids; let i=index"><b>{{ i+1 }}</b> Cluster {{ i
+                                    }} : {{ centroid }}</li>
                             </ul>
                         </div>
                     </div>
