@@ -1,29 +1,34 @@
 <div class="container m-5">
     <h3>Algoritmo KMEANS</h3>
     <hr>
-    <form>
+    <form [formGroup]="form" (ngSubmit)="runKmeans()">
         <div class="input-group mb-3">
             <span class="input-group-text">Query</span>
-            <textarea class="form-control" placeholder="Ej: SELECT * FROM ..."></textarea>
+            <textarea class="form-control" placeholder="Ej: SELECT * FROM ..." formControlName="query"></textarea>
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Nombre de columnas</span>
-            <input type="text" class="form-control" placeholder="Ej: h_título">
+          <span class="input-group-text">Nombre de columnas</span>
+          <input type="text" aria-label="First name" class="form-control" formControlName="column_1">
+          <input type="text" aria-label="Last name" class="form-control" formControlName="column_2">
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Número de Clusters</span>
-            <input type="number" class="form-control" placeholder="Ej: 4">
+            <span class="input-group-text">Número de Clusters</span>
+            <input type="number" class="form-control" placeholder="Ej: 4" formControlName="n_clusters">
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Init</span>
-            <input type="text" class="form-control" placeholder="Ej: Kmeans++">
+          <label class="input-group-text" for="inputGroupSelect01">Init</label>
+          <select class="form-select" id="inputGroupSelect01" formControlName="init">
+            <option disabled selected>Selecciona una opción</option>
+            <option value="kmeans++">kmeans++</option>
+            <option value="random">Random</option>
+          </select>
         </div>
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Máx. Iteraciones</span>
-            <input type="number" class="form-control" placeholder="Ej: 1">
+            <span class="input-group-text">Máx. Iteraciones</span>
+            <input type="number" class="form-control" placeholder="Ej: 1" formControlName="max_iter">
         </div>
 
-        <button type="submit" class="btn btn-primary">Envíar</button>
+        <button type="submit" class="btn btn-primary">Ver Resultados</button>
     </form>
     <hr>
     <!-- TAB NAV -->
@@ -48,35 +53,21 @@
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">H_TITULO</th>
-                            <th scope="col">H_DESCRIPTION</th>
-                            <th scope="col">CLUSTER</th>
+                            <th scope="col" *ngFor="let column of data?.columns">{{ column }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>ANALISTA</td>
-                            <td>ANALISTA DE SISTEMAS</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>ANALISTA</td>
-                            <td>DESARROLLADOR WEB</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>ANALISTA</td>
-                            <td>DESARROLLADOR WEB</td>
-                            <td>1</td>
+                        <tr *ngFor="let element of data?.data.data; let i=index">
+                            <th scope="row">{{ i+1 }}</th>
+                            <td>{{ element[data?.columns[0]] }}</td>
+                            <td>{{ element[data?.columns[1]] }}</td>
+                            <td>{{ element.cluster }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="tab-pane fade p-5" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/KMeans-Gaussian-data.svg/952px-KMeans-Gaussian-data.svg.png"
+                <img [src]=" img "
                     alt="" height="600px" width="600px">
             </div>
             <div class="tab-pane fade p-5" id="contact" role="tabpanel" aria-labelledby="contact-tab">
@@ -87,9 +78,7 @@
                         </div>
                         <div class="col-6">
                             <ul>
-                                <li>Cluster 0: [10, 119]</li>
-                                <li>Cluster 1: [13, 219]</li>
-                                <li>Cluster 2: [80, 619]</li>
+                                <li *ngFor="let centroid of data?.centroids; let i=index"><b>{{ i+1 }}</b> Cluster {{ i }} : {{ centroid }}</li>
                             </ul>
                         </div>
                     </div>
