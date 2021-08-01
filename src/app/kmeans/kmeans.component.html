@@ -58,7 +58,7 @@
                     </thead>
                     <tbody>
 
-                        <tr *ngFor="let element of data?.data.data  let i=index">
+                        <tr *ngFor="let element of data?.data.data | paginate: { itemsPerPage:20, currentPage: page };let i=index">
                             <th scope="row">{{ i+1 }}</th>
                             <td>{{ element[data?.columns[0]] }}</td>
                             <td>{{ element[data?.columns[1]] }}</td>
