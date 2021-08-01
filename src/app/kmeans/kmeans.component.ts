@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MachineLearningService } from '../../services/machine-learning.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @Component({
   selector: 'app-kmeans',
   templateUrl: './kmeans.component.html',
   styleUrls: ['./kmeans.component.scss']
 })
 export class KmeansComponent implements OnInit {
+  page: number;
   form: FormGroup;
   data: any;
   img: any;
@@ -16,6 +19,7 @@ export class KmeansComponent implements OnInit {
               private _sanitizer: DomSanitizer
     ) {
     this.form = this.formbuilder.group({});
+    this.page = 1;
   }
 
   ngOnInit(): void {
