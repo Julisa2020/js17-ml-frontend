@@ -2,20 +2,26 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import {NgxPaginationModule} from 'ngx-pagination'; 
+import {NgxPaginationModule} from 'ngx-pagination';
+import { AppRoutingModule } from './app-routing.module';
 
 /* import { AppRoutingModule } from './app-routing.module'; */
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { KmeansComponent } from './kmeans/kmeans.component';
+import { KmeansComponent } from './components/kmeans/kmeans.component';
+import { PanelComponent } from './components/panel/panel.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    KmeansComponent
+    KmeansComponent,
+    PanelComponent,
+    NavbarComponent,
+    HomeComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,

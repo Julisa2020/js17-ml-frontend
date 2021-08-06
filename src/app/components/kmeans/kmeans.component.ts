@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MachineLearningService } from '../../services/machine-learning.service';
+import { MachineLearningService } from '../../../services/machine-learning.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -14,12 +14,16 @@ export class KmeansComponent implements OnInit {
   form: FormGroup;
   data: any;
   img: any;
+  showForm: boolean;
+  showResults: boolean;
   constructor(private formbuilder: FormBuilder,
               private machineLearningService:MachineLearningService,
               private _sanitizer: DomSanitizer
     ) {
-    this.form = this.formbuilder.group({});
-    this.page = 1;
+      this.showForm = true;
+      this.showResults = false;
+      this.form = this.formbuilder.group({});
+      this.page = 1;
   }
 
   ngOnInit(): void {
@@ -48,6 +52,8 @@ export class KmeansComponent implements OnInit {
     columns.push(column_1, column_2);
     this.form.controls["columns"].setValue(columns);
     this.machineLearningService.runKmeans(this.form.value).subscribe((result: any)=>{
+      // console.log(result)
+      this.showResults = true;
       this.data = result;
       this.img = 'data:image/jpg;base64,'
                  + this.data?.graphic;
