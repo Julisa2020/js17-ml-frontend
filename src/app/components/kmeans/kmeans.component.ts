@@ -16,6 +16,7 @@ export class KmeansComponent implements OnInit {
   response: any;
   data: any;
   columns: any;
+  clusters: any;
   img: any;
   showForm: boolean;
   showResults: boolean;
@@ -27,6 +28,25 @@ export class KmeansComponent implements OnInit {
       this.showResults = false;
       this.form = this.formbuilder.group({});
       this.page = 1;
+  }
+
+  showMore(i:number): void{
+    let centroid = this.response?.centroids[i];
+    let pointCols = '';
+    centroid?.point.forEach((point:any, index: number) => {
+      pointCols += `<p style="font-weight:bold">Punto ${index+1}: ${parseFloat(point).toFixed(2)}</p></b>`;
+    });
+    let swal_html = `<b><div class="panel" style="background:aliceblue;font-weight:bold">
+    <div class="panel-heading panel-info text-center btn-info"><b>Puntos</b></div>
+    <div class="panel-body"><div class="text-center">
+    ${pointCols}
+    </div></div>
+    <div class="panel-heading panel-info text-center btn-info"><b>Distancia</b></div>
+    <div class="panel-body"><div class="text-center">
+    <b><p style="font-weight:bold">Distancia: ${parseFloat(centroid?.distance).toFixed(3)}</p></b>
+    </div></div>
+    </div>`;
+    Swal.fire({title:"Coordenadas", html: swal_html});
   }
 
   ngOnInit(): void {
@@ -43,6 +63,8 @@ export class KmeansComponent implements OnInit {
       n_clusters: [5, [Validators.required, Validators.min(1)]],
       init: ['', [Validators.required, Validators.minLength(1)]],
       max_iter: [500, [Validators.required, Validators.min(1)]],
+      axis_x: [0, [ Validators.min(0)]],
+      axis_y: [1, [ Validators.min(0)]],
       // query: ['', [Validators.required, Validators.minLength(0)]],
       // column_1: ['', [Validators.required, Validators.minLength(0)]],
       // column_2: ['', [Validators.required, Validators.minLength(0)]],
@@ -54,6 +76,15 @@ export class KmeansComponent implements OnInit {
   }
 
   runKmeans(){
+    if (this.form.invalid) {
+      Swal.fire({
+        title: '¡Llene todos los campos correctamente!',
+        icon: 'warning',
+        // allowOutsideClick: false
+    });
+      return;
+    }
+
     Swal.fire({
           title: 'Cargando ...',
           // allowOutsideClick: false
@@ -71,6 +102,9 @@ export class KmeansComponent implements OnInit {
       console.log(this.response);
       this.data = result?.data.data;
       this.columns = result?.columns.filter((item:any) => item !== "cluster");
+      let no_sorted_clusters = result?.clusters;
+      console.log(no_sorted_clusters)
+      this.clusters = no_sorted_clusters.sort((a:any, b:any) => b?.percentage-a?.percentage);
       this.img = 'data:image/jpg;base64,'
                  + this.response?.graphic;
     }, (err:any)=>{
