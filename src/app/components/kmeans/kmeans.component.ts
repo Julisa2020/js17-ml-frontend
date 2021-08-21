@@ -18,6 +18,7 @@ export class KmeansComponent implements OnInit {
   columns: any;
   clusters: any;
   img: any;
+  img_elbow: any;
   showForm: boolean;
   showResults: boolean;
   constructor(private formbuilder: FormBuilder,
@@ -61,8 +62,10 @@ export class KmeansComponent implements OnInit {
       query: ["select o.htitulo_cat as categoria,o.htitulo as perfil, w.pagina_web,o.empresa,o.lugar,o.salario,date_part('year',o.fecha_publicacion) as periodo, f_dimPerfilOferta(o.id_oferta,7) as funciones, f_dimPerfilOferta(o.id_oferta,1) as conocimiento, f_dimPerfilOferta(o.id_oferta,3) as habilidades, f_dimPerfilOferta(o.id_oferta,2) as competencias, f_dimPerfilOferta(o.id_oferta,17) as certificaciones, f_dimPuestoEmpleo(o.id_oferta,5) as beneficio, f_dimPerfilOferta(o.id_oferta,11) as formacion from webscraping w inner join oferta o on (w.id_webscraping=o.id_webscraping) where o.id_estado is null limit 500;", [Validators.required, Validators.minLength(0)]],
       // columns: ['', [Validators.required, Validators.minLength(0)]],
       n_clusters: [5, [Validators.required, Validators.min(1)]],
-      init: ['', [Validators.required, Validators.minLength(1)]],
+      init: ['', [Validators.required, Validators.minLength(0)]],
       max_iter: [500, [Validators.required, Validators.min(1)]],
+      n_init: [1, [Validators.required, Validators.min(0)]],
+      random_state: [0, [Validators.required, Validators.min(0)]],
       axis_x: [0, [ Validators.min(0)]],
       axis_y: [1, [ Validators.min(0)]],
       // query: ['', [Validators.required, Validators.minLength(0)]],
@@ -107,6 +110,8 @@ export class KmeansComponent implements OnInit {
       this.clusters = no_sorted_clusters.sort((a:any, b:any) => b?.percentage-a?.percentage);
       this.img = 'data:image/jpg;base64,'
                  + this.response?.graphic;
+      this.img_elbow = 'data:image/jpg;base64,'
+                 + this.response?.elbow_method;
     }, (err:any)=>{
       Swal.close();
       Swal.fire({
