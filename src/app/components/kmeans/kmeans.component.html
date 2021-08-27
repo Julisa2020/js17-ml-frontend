@@ -8,7 +8,7 @@
           <form [formGroup]="form" (ngSubmit)="runKmeans()" >
             <div class="input-group mb-3">
                 <span class="input-group-text">Query</span>
-                <textarea class="form-control" placeholder="Ej: SELECT * FROM ..." formControlName="query"></textarea>
+                <textarea (keyup)="autoGrowTextZone($event)" class="form-control" placeholder="Ej: SELECT * FROM ..." formControlName="query"></textarea>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">Número de Clusters</span>
@@ -78,7 +78,7 @@
               <button type="submit" class="btn btn-warning">Mostrar</button>
             </form>
 
-            <img [src]=" img " alt="" height="600px" width="100%">
+            <img [src]="img" alt="" height="600px" width="100%">
               </div>
               <div class="col-6">
                 <div  style="overflow: auto;">
@@ -95,7 +95,7 @@
                     <tbody>
                       <tr *ngFor="let element of response?.centroids; let i = index">
                           <th scope="row">{{ i + 1 }}</th>
-                          <td>Centroide {{ i+1 }}</td>
+                          <td>Centroide {{ i }}</td>
                           <td><span *ngFor="let title of element?.title_cluster"> {{ title ? title : '-' }} <b>|</b></span></td>
                           <!-- <td>{{ element?.distance | number : '1.2-3' }}</td> -->
                           <td>{{ element?.position }}</td>
@@ -139,7 +139,14 @@
         </div>
             <div class="tab-pane fade py-5" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                 <div style="overflow: auto;">
-                  <table class="table table-bordered table-hover" style="width: 1000px;">
+                  <div class="input-group mb-3" style="width: 300px;">
+                    <span class="input-group-text">Buscar por cluster</span>
+                  <select class="form-select" [(ngModel)]="searchCluster" >
+                    <option selected value="">Todos</option>
+                    <option *ngFor="let item of clusters; let i=index;" [value]="i">Cluster {{i}}</option>
+                  </select>
+                  </div>
+                <table class="table table-bordered table-hover" style="width: 1000px;">
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">#</th>
@@ -149,11 +156,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let element of data | paginate: { itemsPerPage:20, currentPage: page };let i=index;">
-                            <th scope="row">{{(page-1) * 20 + i + 1}}</th>
-                            <td>{{ element?.cluster }}</td>
-                            <td>{{ element?.index }}</td>
-                            <td *ngFor="let column of columns;">
+                        <tr *ngFor="let element of data | searchCluster:searchCluster | paginate: { itemsPerPage:20, currentPage: page };let i=index;">
+                            <th [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }" scope="row">{{(page-1) * 20 + i + 1}}</th>
+                            <td [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }">{{ element?.cluster }}</td>
+                            <td [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }">{{ element?.index }}</td>
+                            <td [ngClass]="{'is_centroid': centroids_idx.indexOf(element.index) > -1 }" *ngFor="let column of columns;">
                               {{element[column] ? element[column]:'-'}}
                             </td>
                         </tr>

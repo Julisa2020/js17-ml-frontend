@@ -17,10 +17,12 @@ export class KmeansComponent implements OnInit {
   data: any;
   columns: any;
   clusters: any;
+  centroids_idx: any;
   img: any;
   img_elbow: any;
   showForm: boolean;
   showResults: boolean;
+  searchCluster = '';
   constructor(private formbuilder: FormBuilder,
               private machineLearningService:MachineLearningService,
               private _sanitizer: DomSanitizer
@@ -48,6 +50,11 @@ export class KmeansComponent implements OnInit {
     </div></div>
     </div>`;
     Swal.fire({title:"Coordenadas", html: swal_html});
+  }
+
+  autoGrowTextZone(e:any) {
+    e.target.style.height = "0px";
+    e.target.style.height = (e.target.scrollHeight + 25)+"px";
   }
 
   ngOnInit(): void {
@@ -102,12 +109,12 @@ export class KmeansComponent implements OnInit {
       Swal.close();
       this.showResults = true;
       this.response = result;
-      console.log(this.response);
+      // console.log(this.response);
       this.data = result?.data.data;
       this.columns = result?.columns.filter((item:any) => item !== "cluster");
       let no_sorted_clusters = result?.clusters;
-      console.log(no_sorted_clusters)
       this.clusters = no_sorted_clusters.sort((a:any, b:any) => b?.percentage-a?.percentage);
+      this.centroids_idx = result?.centroids.map((val:any) => val.position );
       this.img = 'data:image/jpg;base64,'
                  + this.response?.graphic;
       this.img_elbow = 'data:image/jpg;base64,'

@@ -11,6 +11,7 @@ import { KmeansComponent } from './components/kmeans/kmeans.component';
 import { PanelComponent } from './components/panel/panel.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { SearchClusterPipe } from './pipes/search-cluster.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeComponent } from './components/home/home.component';
     KmeansComponent,
     PanelComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    SearchClusterPipe
   ],
   imports: [
     AppRoutingModule,
